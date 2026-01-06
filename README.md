@@ -1,289 +1,597 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurora</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>موقع الألعاب الذكائية</title>
     <style>
-        /* CSS styles are inside this <style> tag */
-
-        /* Basic Setup */
-        :root {
-            --dark-bg: #0a043c;
-            --text-light: #f0f0f0;
-            --aurora-green: #4caf50;
-            --aurora-pink: #ff4081;
-            --aurora-blue: #00bcd4;
-        }
-
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
         }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
+            background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 10px;
             line-height: 1.6;
+            overflow-x: hidden;
         }
-
-        /* --- Homepage / Hero Section --- */
-        #hero {
-            height: 100vh;
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #ff9800, #ffeb3b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            color: #bbbbbb;
+            margin-bottom: 15px;
+        }
+        
+        .game-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .game-btn {
+            padding: 12px 25px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 140px;
+        }
+        
+        .game-btn.active {
+            background: linear-gradient(to right, #ff9800, #ff5722);
+            box-shadow: 0 4px 8px rgba(255, 87, 34, 0.4);
+        }
+        
+        .game-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            display: none;
+            margin-bottom: 20px;
+        }
+        
+        .game-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .game-header {
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .game-title {
+            font-size: 1.4rem;
+            color: #ffeb3b;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .stat-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #4caf50;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #bbbbbb;
+        }
+        
+        .timer {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #ff5252;
+            text-align: center;
+            padding: 10px;
+            background: rgba(255, 82, 82, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid rgba(255, 82, 82, 0.3);
+        }
+        
+        .question-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px 15px;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            color: #ff9800;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            min-height: 60px;
+        }
+        
+        .options-container {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            
-            /* TODO: Replace this background image URL with a beautiful photo of you two! */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1531366936337-7c912a4589a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
-            background-size: cover;
-            background-position: center;
-        }
-
-        #hero h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 6rem; /* 6 times the normal font size */
-            text-shadow: 0 0 15px var(--aurora-blue);
-        }
-
-        #hero p {
-            font-size: 1.5rem;
-            margin-top: 10px;
-            margin-bottom: 30px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 12px 25px;
-            border: 2px solid var(--aurora-blue);
-            border-radius: 50px;
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .cta-button:hover {
-            background-color: var(--aurora-blue);
-            color: var(--dark-bg);
-        }
-
-        /* --- General Section Styling --- */
-        section {
-            padding: 100px 20px;
-            text-align: center;
-        }
-
-        section h2 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem;
-            margin-bottom: 50px;
-            text-shadow: 0 0 10px var(--aurora-pink);
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        /* --- 1. Our Journey (Timeline) --- */
-        .timeline {
-            position: relative;
-            padding-left: 50px; /* Space for the line */
-            border-left: 3px solid var(--aurora-green);
-            text-align: left;
-        }
-
-        .timeline-item {
-            margin-bottom: 50px;
-            position: relative;
+            gap: 12px;
+            margin-bottom: 20px;
         }
         
-        .timeline-item::before {
-            content: '✨';
-            position: absolute;
-            left: -35px; /* Position on the line */
-            top: 0;
-            font-size: 1.5rem;
-            background-color: var(--dark-bg);
-        }
-
-        .timeline-item h3 {
-            color: var(--aurora-green);
-            font-size: 1.5rem;
-        }
-        
-        .timeline-item p {
+        .option-btn {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
             font-size: 1rem;
-        }
-
-        /* --- 2. Reasons Why (Cards) --- */
-        .reasons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .reason-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 25px;
-            border-radius: 10px;
-            border: 1px solid var(--aurora-pink);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .reason-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(255, 64, 129, 0.3);
-        }
-
-        .reason-card h3 {
-            color: var(--aurora-pink);
-            margin-bottom: 10px;
-        }
-
-        /* --- 3 & 4. Soundtrack & Map (Embedded content) --- */
-        .embed-container {
-            border: 2px solid var(--aurora-blue);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 30px;
-        }
-        
-        iframe {
-            width: 100%;
-            height: 450px;
-            border: none;
-        }
-        
-        /* --- 5. "Open When..." Letters --- */
-        .letters-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-        
-        .letter-button {
-            background-color: transparent;
-            color: var(--aurora-green);
-            border: 2px solid var(--aurora-green);
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
+            transition: all 0.2s ease;
+            text-align: right;
         }
         
-        .letter-button:hover {
-            background-color: var(--aurora-green);
-            color: var(--dark-bg);
+        .option-btn.selected {
+            background: rgba(33, 150, 243, 0.3);
+            border-color: #2196f3;
+        }
+        
+        .option-btn.correct {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+        }
+        
+        .option-btn.incorrect {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: #f44336;
+        }
+        
+        .game-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .control-btn {
+            padding: 14px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 120px;
+        }
+        
+        .next-btn {
+            background: linear-gradient(to right, #4caf50, #2e7d32);
+            color: white;
+        }
+        
+        .start-btn {
+            background: linear-gradient(to right, #2196f3, #0d47a1);
+            color: white;
+        }
+        
+        .start-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .result-container {
+            text-align: center;
+            padding: 30px 15px;
+            display: none;
+        }
+        
+        .result-title {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #ffeb3b;
+        }
+        
+        .result-score {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #4caf50;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .result-level {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #ff9800;
+        }
+        
+        .result-details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        
+        .restart-btn {
+            background: linear-gradient(to right, #ff9800, #ff5722);
+            color: white;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin-top: 15px;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .football-levels {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .level-indicator {
+            padding: 10px 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            min-width: 70px;
+        }
+        
+        .level-indicator.active {
+            background: rgba(255, 152, 0, 0.3);
+            border: 2px solid #ff9800;
+        }
+        
+        .level-indicator.completed {
+            background: rgba(76, 175, 80, 0.3);
+            border: 2px solid #4caf50;
+        }
+        
+        .level-name {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .level-requirement {
+            font-size: 0.75rem;
+            color: #bbbbbb;
+        }
+        
+        .ai-info {
+            background: rgba(0, 150, 136, 0.2);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #80cbc4;
+            border-right: 4px solid #009688;
+        }
+        
+        .ai-info h4 {
+            color: #4db6ac;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbbbbb;
+            font-size: 0.8rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+            font-size: 1.2rem;
+            color: #ffeb3b;
         }
     </style>
 </head>
 <body>
-
-    <header id="hero">
-        <h1>Aurora</h1>
-        <p>A little world I built just for you, [Her Name].</p>
-        <a href="#journey" class="cta-button">Explore Our Sky</a>
-    </header>
-
-    <main>
-
-        <section id="journey">
-            <div class="container">
-                <h2>Our Journey ✨</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <h3>September 15, 2024 - The Day We Met</h3>
-                        <p>Your message about this day goes here. A little detail you remember, something that made you smile.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <h3>October 20, 2024 - Our First Date</h3>
-                        <p>Write about your first date. Where you went, what you talked about, a funny moment that happened.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <h3>December 25, 2024 - First Holiday</h3>
-                        <p>A memory from your first holiday season together. A gift, a special moment, anything you cherish.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="reasons">
-            <div class="container">
-                <h2>The Reasons Why 💌</h2>
-                <div class="reasons-grid">
-                    <div class="reason-card">
-                        <h3>The Way You Smile</h3>
-                        <p>It lights up the whole room and makes my day instantly better.</p>
-                    </div>
-                    <div class="reason-card">
-                        <h3>Your Kindness</h3>
-                        <p>You are kind to everyone you meet, and it's one of the most beautiful things about you.</p>
-                    </div>
-                    <div class="reason-card">
-                        <h3>Our Late-Night Talks</h3>
-                        <p>I love that we can talk about anything and everything for hours.</p>
-                    </div>
-                    <div class="reason-card">
-                        <h3>Your Sense of Humor</h3>
-                        <p>You always know how to make me laugh, even on the toughest days.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="soundtrack">
-            <div class="container">
-                <h2>Our Soundtrack 🎶</h2>
-                <p>A collection of songs that remind me of us.</p>
-                <div class="embed-container">
-                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator" width="100%" height="352" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                </div>
-            </div>
-        </section>
+    <div class="container">
+        <header>
+            <h1>موقع الألعاب الذكائية</h1>
+            <p class="subtitle">اختبر ذكاءك ومعرفتك بكرة القدم</p>
+        </header>
         
-        <section id="map">
-            <div class="container">
-                <h2>Our Adventure Map 🗺️</h2>
-                <p>Places we've been and places we'll go together.</p>
-                 <div class="embed-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.952912260219!2d3.375295414770757!3d6.527631645278465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0x5df9fe84736ccc53!2sLagos!5e0!3m2!1sen!2sng!4v1617290515127!5m2!1sen!2sng" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <div class="game-selector">
+            <button class="game-btn active" id="iqBtn">اختبار الذكاء</button>
+            <button class="game-btn" id="footballBtn">مسابقة القدم</button>
+        </div>
+        
+        <!-- اختبار الذكاء -->
+        <div class="game-container active" id="iqGame">
+            <div class="game-header">
+                <h2 class="game-title">اختبار الذكاء IQ</h2>
+                <div class="game-stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="iqScore">0</div>
+                        <div class="stat-label">النقاط</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="iqQuestion">0/30</div>
+                        <div class="stat-label">السؤال</div>
+                    </div>
                 </div>
             </div>
-        </section>
-
-        <section id="letters">
-            <div class="container">
-                <h2>A Message For You ✉️</h2>
-                <p>Click a button whenever you want to hear from me.</p>
-                <div class="letters-container">
-                    <button class="letter-button" onclick="alert('You know I miss you more than anything right now. Close your eyes and think of our best memory together. I am with you always.')">Open When You Miss Me</button>
-                    <button class="letter-button" onclick="alert('Remember that time we [insert funny memory here]? Thinking about it always makes me smile. Hope it does for you too!')">Open When You Need a Laugh</button>
-                    <button class="letter-button" onclick="alert('Hey. Whatever is happening, just know that you are the strongest, most amazing person I know. You can handle this. I am here for you, always. Call me if you need me.')">Open When You've Had a Bad Day</button>
+            
+            <div class="timer" id="iqTimer">--</div>
+            
+            <div class="question-container">
+                <div class="question-number" id="iqQuestionNum">انقر على بدء الاختبار</div>
+                <div class="question-text" id="iqQuestionText">اختبار الذكاء IQ يتكون من 30 سؤالاً، لديك 20 ثانية للإجابة على كل سؤال. سيحدد نظام الذكاء الاصطناعي مستوى ذكائك بناءً على إجاباتك.</div>
+                
+                <div class="options-container" id="iqOptions">
+                    <!-- سيتم تعبئة الخيارات ديناميكيًا -->
                 </div>
             </div>
-        </section>
+            
+            <div class="game-controls">
+                <button class="control-btn start-btn" id="startIqBtn">بدء الاختبار</button>
+                <button class="control-btn next-btn" id="iqNextBtn" disabled>التالي</button>
+            </div>
+            
+            <div class="result-container" id="iqResult">
+                <h2 class="result-title">نتيجة اختبار الذكاء</h2>
+                <div class="result-score" id="iqFinalScore">0</div>
+                <div class="result-level" id="iqLevel">--</div>
+                <div class="result-details" id="iqDetails">
+                    <!-- سيتم تعبئة النتيجة ديناميكيًا -->
+                </div>
+                <button class="restart-btn" id="restartIqBtn">إعادة الاختبار</button>
+            </div>
+        </div>
+        
+        <!-- مسابقة كرة القدم -->
+        <div class="game-container" id="footballGame">
+            <div class="game-header">
+                <h2 class="game-title">مسابقة كرة القدم</h2>
+                <div class="game-stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="footballScore">0</div>
+                        <div class="stat-label">النقاط</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="footballQuestion">0/15</div>
+                        <div class="stat-label">السؤال</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="footballStage">1</div>
+                        <div class="stat-label">المرحلة</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="football-levels">
+                <div class="level-indicator active" id="level1">
+                    <div class="level-name">سهل</div>
+                    <div class="level-requirement">60%</div>
+                </div>
+                <div class="level-indicator" id="level2">
+                    <div class="level-name">متوسط</div>
+                    <div class="level-requirement">70%</div>
+                </div>
+                <div class="level-indicator" id="level3">
+                    <div class="level-name">صعب</div>
+                    <div class="level-requirement">80%</div>
+                </div>
+                <div class="level-indicator" id="level4">
+                    <div class="level-name">إسطورة</div>
+                    <div class="level-requirement">90%</div>
+                </div>
+            </div>
+            
+            <div class="timer" id="footballTimer">--</div>
+            
+            <div class="question-container">
+                <div class="question-number" id="footballQuestionNum">انقر على بدء المسابقة</div>
+                <div class="question-text" id="footballQuestionText">مسابقة كرة القدم تتكون من 4 مراحل، كل مرحلة 15 سؤالاً، لديك 15 ثانية لكل سؤال. يجب تحقيق النسبة المطلوبة للانتقال للمرحلة التالية.</div>
+                
+                <div class="options-container" id="footballOptions">
+                    <!-- سيتم تعبئة الخيارات ديناميكيًا -->
+                </div>
+            </div>
+            
+            <div class="game-controls">
+                <button class="control-btn start-btn" id="startFootballBtn">بدء المسابقة</button>
+                <button class="control-btn next-btn" id="footballNextBtn" disabled>التالي</button>
+            </div>
+            
+            <div class="result-container" id="footballResult">
+                <h2 class="result-title">نتيجة المسابقة</h2>
+                <div class="result-score" id="footballFinalScore">0</div>
+                <div class="result-level" id="footballStageResult">--</div>
+                <div class="result-details" id="footballDetails">
+                    <!-- سيتم تعبئة النتيجة ديناميكيًا -->
+                </div>
+                <button class="restart-btn" id="restartFootballBtn">إعادة المسابقة</button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 موقع الألعاب الذكائية</p>
+            <p>متوافق مع الهواتف الذكية</p>
+        </footer>
+    </div>
 
-    </main>
+    <script>
+        // === تهيئة العناصر الرئيسية ===
+        document.addEventListener('DOMContentLoaded', function() {
+            initGames();
+        });
 
-</body>
-</html>
+        function initGames() {
+            // العناصر الرئيسية
+            const iqBtn = document.getElementById('iqBtn');
+            const footballBtn = document.getElementById('footballBtn');
+            const iqGame = document.getElementById('iqGame');
+            const footballGame = document.getElementById('footballGame');
+            
+            // تبديل بين اللعبتين
+            iqBtn.addEventListener('click', () => {
+                iqBtn.classList.add('active');
+                footballBtn.classList.remove('active');
+                iqGame.classList.add('active');
+                footballGame.classList.remove('active');
+                resetIqGame();
+            });
+            
+            footballBtn.addEventListener('click', () => {
+                footballBtn.classList.add('active');
+                iqBtn.classList.remove('active');
+                footballGame.classList.add('active');
+                iqGame.classList.remove('active');
+                resetFootballGame();
+            });
+            
+            // تهيئة الألعاب
+            initIqGame();
+            initFootballGame();
+        }
+
+        // ==================== اختبار الذكاء ====================
+        let iqCurrentQuestion = 0;
+        let iqScore = 0;
+        let iqTimerValue = 20;
+        let iqTimerInterval = null;
+        let iqSelectedAnswer = null;
+        let iqStartTime = 0;
+        let iqTotalTime = 0;
+        let iqCorrectAnswers = 0;
+        let iqQuestions = [];
+        let iqGameActive = false;
+
+        function initIqGame() {
+            // إنشاء أسئلة اختبار الذكاء
+            createIqQuestions();
+            
+            // عناصر اختبار الذكاء
+            const startIqBtn = document.getElementById('startIqBtn');
+            const iqNextBtn = document.getElementById('iqNextBtn');
+            const restartIqBtn = document.getElementById('restartIqBtn');
+            
+            // الأحداث
+            startIqBtn.addEventListener('click', startIqTest);
+            iqNextBtn.addEventListener('click', nextIqQuestion);
+            restartIqBtn.addEventListener('click', restartIqTest);
+            
+            // إعداد الواجهة الابتدائية
+            resetIqGame();
+        }
+
+        function createIqQuestions() {
+            iqQuestions = [];
+            
+            // 30 سؤالاً متنوعاً لاختبار الذكاء
+            const questionTemplates = [
+                {
+                    template: "ما هو الرقم التالي في التسلسل: ${a}, ${b}, ${c}, ${d}, ...؟",
+                    generate: () => {
+                        const start = Math.floor(Math.random() * 10) + 1;
+                        const pattern = Math.floor(Math.random() * 3) + 1;
+                        let a = start, b = a + pattern, c = b + pattern, d = c + pattern;
+                        const next = d + pattern;
+                        return {
+                            question: `ما هو الرقم التالي في التسلسل: ${a}, ${b}, ${c}, ${d}, ...؟`,
+                            options: [
+                                next,
+                                next + pattern,
+                                next - pattern,
+                                next * 2
+                            ],
+                            answer: 0
+                        };
+                    }
+                },
+                {
+                    template: "إذا كان ${x} + ${y} = ${sum}، فما هو ${y} + ${x}؟",
+                    generate: () => {
+                        const x = Math.floor(Math.random() * 50) + 10;
+                        const y = Math.floor(Math.random() * 50) + 10;
+                        const sum = x + y;
+                        return {
+                            question: `إذا كان ${x} + ${y} = ${sum}، فما هو ${y} + ${x}؟`,
+                            options: [sum, sum + 1, sum - 1, x + y + 2],
+                            answer: 0
+                        };
+                    }
+                },
+                {
+                    template: "ما هو العدد الذي إذا ضرب في ${a} يصبح ${b}؟",
+                    generate: () => {
+                        const a = Math.floor(Math.random() * 8) + 2;
+                        const result = Math.floor(Math.random() * 50) + 10;
+                        const answer = result / a;
+                        const wrong1 = answer + 1;
+                        const wrong2 = answer - 1;
+                        const wrong3 = answer * 2;
+                        return {
+                            question: `ما هو العد
